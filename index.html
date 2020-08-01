@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>放大镜demo</title>
+	<style>
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		img{
+			display: block;
+		}
+
+		.clearfix{}
+		.clearfix::before,.clearfix::after{
+			content: "";
+			display: block;
+		}
+		.clearfix::after{
+			clear: both;
+		}
+
+		.containner{
+			width: 800px;
+			margin: 0 auto;
+		}
+
+		#box, #pox{
+			float: left;
+			position: relative;
+		}
+		#box{
+			cursor: pointer;
+		}
+		#pox{
+			width: 400px;
+			height: 400px;
+			display: none;
+			overflow: hidden;
+		}
+		#move{
+			width: 80px;
+			height: 80px;
+			display: none;
+			position: absolute;
+			top: 0;
+			left: 0;
+			background-color: rgba(125,50,255,0.3);
+		}
+		#pox img{
+			position: absolute;
+		} 
+	</style>
+</head>
+<body>
+	<div class="containner clearfix">
+		<div id="box">
+			<img src="imgs/msn8.jpg" width="400px" height="600px">
+			<div id="move"></div>
+		</div>
+		<div id="pox">
+			<img src="imgs/msn8.jpg" width="2000px" height="3000px" id="img">
+		</div>
+	</div>
+	<script>
+		var box = document.getElementById('box');
+		var move = document.getElementById('move');
+		var pox = document.getElementById('pox');
+		var img = document.getElementById('img');
+
+		box.onmouseover =function(){
+			move.style.display = "block";
+			pox.style.display = "block";
+		}
+		box.onmousemove = function(e){
+			var ev = e || event;
+			var left = ev.clientX - this.offsetLeft -move.offsetWidth/2;
+			var top = ev.clientY - this.offsetTop -move.offsetHeight/2;
+			
+			if (left<0) {
+				left = 0;
+			}
+			if (left>box.offsetWidth -move.offsetWidth) {
+				left = box.offsetWidth -move.offsetWidth;
+			}
+			if (top<0) {
+				top = 0;
+			}
+			if (top>box.offsetHeight - move.offsetHeight) {
+				top = box.offsetHeight - move.offsetHeight;
+			}
+			move.style.left = left + "px";
+			move.style.top = top + "px";
+
+			img.style.left = left*-5 + "px";
+			img.style.top = top*-5 + "px";
+		}
+		box.onmouseout = function(){
+			move.style.display = "none";
+			pox.style.display = "none";
+		}
+	</script>
+</body>
+</html>
